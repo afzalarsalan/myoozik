@@ -1,0 +1,33 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+
+
+<dom-module id="chat-box">
+<template>
+<style>
+  :host {
+    display: block;
+    padding: 0px;
+    bottom:0;
+    left:0;
+  }
+</style>
+  <div class="send-message" layout horizontal>
+	    	<paper-input flex label="Type message..." id="input" value="{{input}}" on-keyup="{{checkKey}}"></paper-input>
+	    	<paper-fab icon="send" id="sendButton" on-tap="{{sendMyMessage}}"></paper-fab>
+	</div>
+</template>
+
+
+<script>
+
+  Polymer({
+
+    is: 'chat-box'
+
+  });
+
+</script>
+
+</dom-module>
