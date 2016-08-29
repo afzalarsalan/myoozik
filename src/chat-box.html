@@ -1,0 +1,62 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/pubnub-element/pubnub-element.html">
+<link rel="import" href="chatlist.html">
+<dom-module id="chat-box">
+<template>
+<style>
+  :host {
+    display: block;
+    padding: 0px;
+    bottom:0;
+    left:0;
+    height:100%;
+    width:100%;
+    .chat-list {
+    overflow-y: scroll;
+    padding-bottom: 16px;
+}
+  }
+</style>
+  <core-pubnub publish_key="pub-c-1b118ef8-4def-4807-9fc0-d3914b220a8c" subscribe_key="sub-c-86c34cbe-5c4d-11e6-ada4-02ee2ddab7fe" >
+      <core-pubnub-subscribe channel="myoozik-xyz" id="sub" messages="{{messages}}" on-presence="{{presenceChanged}}" on-error="{{error}}">
+          <core-pubnub-publish channel="myoozik-xyz" message="{{input}}" id="pub" on-success="test" on-error="{{error}}"></core-pubnub-publish>
+          <core-pubnub-history channel="myoozik-xyz" count="30" history="{{historyRetrieved}}" on-error="{{error}}"></core-pubnub-history>
+      </core-pubnub-subscribe>
+  </core-pubnub>
+  <div class="contantior" style="display:flex;height:90%;width:100%;flex-direction:column">
+  <div id="chat" style="flex-grow:1;width:100%">
+  		<div class="chat-list" style="width:100%;height:100%">
+  		</div>
+  </div>
+    <div class="send-message" layout horizontal style="display:flex;justify-content:space-between">
+          <div style="flex-grow:1; margin: 10px">
+  	    	<paper-input label="Type message..." id="input" value="{{input}}" style=""></paper-input>
+        </div>
+  	    	<paper-fab icon="send" id="sendButton" on-tap="sendMyMessage" style="margin:10px 10px 10px 10px"></paper-fab>
+  	</div>
+</div>
+</template>
+
+
+<script>
+  var element=Polymer({is: 'chat-box',
+                        properties: {
+                          input:{
+                            type:String,
+                            value:"Default",
+                          }},
+                        sendMyMessage:function(e)
+                          {
+                           this.$.pub.message=this.input;
+                           this.$.pub.publish();
+                          },
+                        test:function()
+                          {console.log(this.input);}
+                      });
+
+
+</script>
+
+</dom-module>

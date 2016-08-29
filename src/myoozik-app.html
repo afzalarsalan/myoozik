@@ -1,0 +1,177 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="my-icons.html">
+<link rel="import" href="playlist-box.html">
+<link rel="import" href="chat-box.html">
+<link rel="import" href="albumart-box.html">
+<link rel="import" href="music-loader.html">
+<link rel="import" href="../bower_components/paper-drawer-panel/paper-drawer-panel.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/google-youtube/google-youtube.html">
+<!--
+To Do: Clean Up Imports
+-->
+
+<dom-module id="myoozik-app">
+
+  <template>
+
+    <style>
+
+      :host {
+        display: block;
+        --app-primary-color: #4285f4;
+        --app-secondary-color: black;
+      }
+
+      app-header {
+        background-color: var(--app-primary-color);
+        color: #fff;
+      }
+      app-header paper-icon-button {
+        --paper-icon-button-ink-color: white;
+      }
+
+      .drawer-list {
+        margin: 0 20px;
+      }
+      .drawer-list a {
+        display: block;
+        padding: 0 16px;
+        line-height: 40px;
+        text-decoration: none;
+        color: var(--app-secondary-color);
+      }
+      .drawer-list a.iron-selected {
+        color: black;
+        font-weight: bold;
+      }
+      .drawer-list a.subroute {
+        padding-left: 32px;
+      }
+      app-drawer{
+        --app-drawer-width: 350px;
+      }
+      .title{
+        background-color: #4040ff;
+        text-align: center;
+      }
+
+
+
+
+    </style>
+    <app-drawer-layout fullbleed force-narrow>
+      <app-drawer id="endDrawer" swipe-open style="z-index:5" align="right">
+        <app-header class="title" style="background-color:#40a040";>
+             <app-toolbar class="title" style="background-color:#40a040">
+               <div title class="title" style="background-color:#40a040">Chat</div>
+             </app-toolbar>
+           </app-header>
+         <chat-box></chat-box>
+      </app-drawer>
+      <app-drawer align="left" swipe-open id="BegDrawer">
+            <app-toolbar class="title">
+              <div title class="title">Playlist</div>
+            </app-toolbar>
+          <playlist-box></playlist-box>
+      </app-drawer>
+      </app-drawer-layout>
+        <!-- Main content -->
+      <div style="width:100%; height:100%;">
+          <app-header-layout has-scrolling-region>
+            <app-header condenses reveals effects="waterfall" style=" z-index:1;">
+              <app-toolbar style="background-color:white">
+                <paper-icon-button icon="menu" style="color:#4040ff" on-tap="toggles2" ></paper-icon-button>
+                <div title class="title" style="width:100%;height:80%;background-color:white;">
+                  <img style=" z-index:5; height:100%;" src="../images/myoozik Logo.svg">
+                </div>
+                <paper-icon-button icon="menu" style="color:#40a040" on-tap="toggles" ></paper-icon-button>
+
+              </app-toolbar>
+            </app-header>
+              <div style="width:100%; height:100%; display: flex; align-items:center">
+                <google-youtube
+                  video-id="..."
+                  height="100vh"
+                  width="100vw"
+                  rel="0"
+                  start="5"
+                  autoplay="1" style="z-index:5;">
+                </google-youtube>
+              </div>
+        </div>
+      <!-- <iron-pages role="main" selected="[[page]]" attr-for-selected="name">
+        <chat-box name="chat"></chat-box>
+        <albumart-box name="albumart"></albumart-box>
+        <playlist-box name="playlist"></playlist-box>
+      </iron-pages> -->
+    <music-loader files="[[files]]"></music-loader>
+
+  </template>
+
+  <script>
+
+    Polymer({is: 'myoozik-app',
+      listeners:{
+      },
+    /*  changewidth: function(e)
+      {
+        var w= this.$.Chat.getAttribute("narrow");
+        if (w == null){ this.width = "25vw";}
+        else{ this.width = "80vw";}
+      },
+      changeappw: function(e)
+      {
+        var w= this.$.playlist.getAttribute("opened");
+        if (w == null){ this.width = "80vw"; }
+        else{ this.width = "25vw";}
+      },*/
+      toggles: function(e)
+      {
+        this.$.endDrawer.toggle();
+      },
+      toggles2: function(e)
+      {
+        this.$.BegDrawer.toggle();
+      },
+
+      properties: {
+
+        p2pid: {
+          type: Number,
+          reflectToAttribute: true,
+          value: null
+        },
+        width: {
+          type: String,
+          value: "25vw",
+          reflectToAttribute: true
+          },
+        validid: {
+          type: Boolean,
+          reflectToAttribute: true,
+          value: false
+        },
+        peer: {
+          type: Object,
+          value: null
+        },
+        files: {
+          type: Object
+        }
+      }
+    });
+  </script>
+
+</dom-module>

@@ -1,0 +1,9 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/myouzik-app.html",
+  "fragments": [
+    "src/albumart-box.html",
+    "src/chat-box.html",
+    "src/playlist-box.html"
+  ]
+}
